@@ -42,7 +42,7 @@ var SITEURL = window.location.origin;
                     },
             eventClick: function (info) {
                 $("#delete").prop("hidden", false);
-                showModal(info.event.allDay, info.event.start, info.event.end, info.event.title, info.event.id);
+                showModal(info.event.allDay, moment(info.event.start).format("YYYY-MM-DDTHH:mm:ss"), moment(info.event.end).format("YYYY-MM-DDTHH:mm:ss"), info.event.title, info.event.id);
             }
 
         });
@@ -64,22 +64,24 @@ var SITEURL = window.location.origin;
                         type: "POST",
                         success: function (data) {
                             displayMessage("Added Successfully");
+                            id = data.id;
+                            calendar.addEvent(
+                                {
+                                    id: id,
+                                    title: title,
+                                    start: start,
+                                    end: end,
+                                    allDay: allDay
+                                },
+                                );
                         },
                         error: function (jqXHR, textStatus, error) {
                             alert(error.message);
                         }
                     });
-                    calendar.addEvent(
-                            {
-                                title: title,
-                                start: start,
-                                end: end,
-                                allDay: allDay
-                            },
-                            );
             }
 
-            if(title && id) {
+            else if(title && id) {
                 updateEvent(id, title, start, end, allDay)
                 var event=calendar.getEventById(id);
                 event.setProp("title", title);
@@ -102,6 +104,9 @@ var SITEURL = window.location.origin;
                             displayMessage("Deleted Successfully");
                             $("#event_id").val(null);
                         }
+                    },
+                    error: function (jqXHR, textStatus, error) {
+                        alert(error.message);
                     }
                 });
             }
