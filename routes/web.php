@@ -15,11 +15,14 @@ Route::middleware('auth')->group(function() {
     Route::get('/', function () {
         return redirect('/users');
     });
-    Route::get('fullcalendar/{user_id}','FullCalendarController@index');
-    Route::post('fullcalendar/{user_id}/create','FullCalendarController@create');
-    Route::post('fullcalendar/{user_id}/update','FullCalendarController@update');
-    Route::post('fullcalendar/{user_id}/delete','FullCalendarController@destroy');
     Route::resource('/users', 'UserController');
+
+    Route::middleware('relationship')->group(function() {
+        Route::get('fullcalendar/{user_id}','FullCalendarController@index');
+        Route::post('fullcalendar/{user_id}/create','FullCalendarController@create');
+        Route::post('fullcalendar/{user_id}/update','FullCalendarController@update');
+        Route::post('fullcalendar/{user_id}/delete','FullCalendarController@destroy');
+    });
 });
 
 Auth::routes();
