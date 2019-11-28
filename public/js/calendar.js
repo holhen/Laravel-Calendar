@@ -1,4 +1,4 @@
-var SITEURL = window.location.origin;
+var SITEURL = window.location.href;
   $(document).ready(function () {
         $.ajaxSetup({
           headers: {
@@ -10,7 +10,7 @@ var SITEURL = window.location.origin;
         var calendar = new FullCalendar.Calendar(calendarEl, {
             plugins: ["dayGrid", "timeGrid", "interaction"],
             editable: true,
-            events: SITEURL + "/fullcalendar/index",
+            events: SITEURL,
             displayEventTime: true,
             eventRender: function (event, element, view) {
                 if (event.allDay === 'true') {
@@ -59,7 +59,7 @@ var SITEURL = window.location.origin;
             var allDay= $("#all-day").prop("checked");
             if(title && !id) {
                 $.ajax({
-                        url: SITEURL + "/fullcalendar/create",
+                        url: SITEURL + "/create",
                         data: 'title=' + title + '&start=' + start + '&end=' + end + "&allDay=" + allDay,
                         type: "POST",
                         success: function (data) {
@@ -95,7 +95,7 @@ var SITEURL = window.location.origin;
             if (deleteMsg) {
                 $.ajax({
                     type: "POST",
-                    url: SITEURL + '/fullcalendar/delete',
+                    url: SITEURL + '/delete',
                     data: "&id=" + $("#event_id").val(),
                     success: function (response) {
                         if(parseInt(response) > 0) {
@@ -132,7 +132,7 @@ var SITEURL = window.location.origin;
 
   function updateEvent(id, title, start, end, allDay) {
     $.ajax({
-        url: SITEURL + '/fullcalendar/update',
+        url: SITEURL + '/update',
         data: 'id=' + id + '&title=' + title + '&start=' + start + '&end=' + end + '&allDay=' + allDay,
         type: "POST",
         success: function (response) {

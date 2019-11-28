@@ -4,28 +4,31 @@ namespace App\Http\Controllers;
 
 use App\Event;
 use Illuminate\Http\Request;
-use Redirect,Response;
-use Illuminate\Support\Facades\Auth;
+use Response;
 
 class FullCalendarController extends Controller
 {
 
-    public function index()
+    public function index($user_id)
     {
-        $start = (!empty($_GET["start"])) ? ($_GET["start"]) : ('');
-        $end = (!empty($_GET["end"])) ? ($_GET["end"]) : ('');
-        $data = Event::whereDate('start', '>=', $start)->whereDate('end',   '<=', $end)->where('user_id', Auth::id())->get(['id','title','start', 'end', 'allDay']);
-        return Response::json($data);
+        if(!empty($_GET["start"]) && !empty($_GET["end"])) {
+            $start = $_GET["start"];
+            $end = $_GET["end"];
+            $data = Event::whereDate('start', '>=', $start)->whereDate('end',   '<=', $end)->where('user_id', $user_id)->get(['id','title','start', 'end', 'allDay']);
+            return Response::json($data);
+        }
+
+        return view("fullcalendar");
     }
 
 
-    public function create(Request $request)
+    public function create(Request $request, $user_id)
     {
         $insertArr = [ 'title' => $request->title,
                        'start' => $request->start,
                        'end' => $request->end,
                        'allDay' => $request->allDay,
-                       'user_id' => Auth::id()
+                       'user_id' => $user_id
                     ];
         $event = Event::create($insertArr);
         return Response::json($event);
