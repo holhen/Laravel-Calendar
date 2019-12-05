@@ -11,7 +11,7 @@
 |
 */
 
-Route::middleware('auth')->group(function() {
+Route::middleware('auth:api')->group(function() {
     Route::get('/', function () {
         return redirect('/users');
     });

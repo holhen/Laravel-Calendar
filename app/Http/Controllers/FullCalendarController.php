@@ -8,21 +8,18 @@ use Response;
 
 class FullCalendarController extends Controller
 {
-
-    public function index($user_id)
+    /*
+        @param Illuminate\Http\Request $request
+        @return Response
+    */
+    public function index(Request $request, $user_id)
     {
-        if(!empty($_GET["start"]) && !empty($_GET["end"])) {
-            $start = $_GET["start"];
-            $end = $_GET["end"];
-            $data = Event::whereDate('start', '>=', $start)->whereDate('end',   '<=', $end)->where('user_id', $user_id)->get(['id','title','start', 'end', 'allDay']);
-            return Response::json($data);
-        }
-
-        return view("fullcalendar");
+        $data = Event::where('user_id', $user_id)->get(['id','title','start', 'end', 'allDay']);
+        return Response::json($data);
     }
 
 
-    public function create(Request $request, $user_id)
+    public function create(Request $request, $user_id=null)
     {
         $insertArr = [ 'title' => $request->title,
                        'start' => $request->start,
