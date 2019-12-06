@@ -1,32 +1,31 @@
-/**
- * First we will load all of this project's JavaScript dependencies which
- * includes Vue and other libraries. It is a great starting point when
- * building robust, powerful web applications using Vue and Laravel.
- */
+import Vue from 'vue'
+import App from './Main'
+import router from './router/index'
+import Vuetify from 'vuetify'
+import axios from 'axios'
+import 'vuetify/dist/vuetify.min.css';
+import store from './store/index'
+import vuetify from './plugins/vuetify';
 
-require('./bootstrap');
+window.axios=axios
 
-window.Vue = require('vue');
+window.token= localStorage.getItem('token');
+window.user= localStorage.getItem('user');
 
-/**
- * The following block of code may be used to automatically register your
- * Vue components. It will recursively scan this directory for the Vue
- * components and automatically register them with their "basename".
- *
- * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
- */
+axios.defaults.baseURL = 'http://localhost:8000/api';
+axios.defaults.headers.common['Authorization'] = "Bearer " + window.token;
 
-// const files = require.context('./', true, /\.vue$/i)
-// files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
+axios.defaults.headers.post['Content-Type'] = 'application/json';
 
-Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+Vue.use(Vuetify)
 
-/**
- * Next, we will create a fresh Vue application instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
- */
+Vue.config.productionTip = false
 
-const app = new Vue({
-    el: '#app',
-});
+
+/* eslint-disable no-new */
+new Vue({
+  router,
+  store,
+  vuetify,
+  render: h => h(App)
+}).$mount("#app")

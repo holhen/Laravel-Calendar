@@ -13,7 +13,8 @@
 
 Route::middleware('auth:api')->group(function() {
     Route::get('/', function () {
-        return redirect('/users');
+        //return redirect('/users');
+        return view('layouts.app');
     });
     Route::resource('/users', 'UserController');
 

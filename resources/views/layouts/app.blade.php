@@ -16,13 +16,15 @@
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons" rel="stylesheet">
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     @stack("plugins")
 </head>
 <body>
-    <div id="app">
+    <div id="app"></div>
+    {{-- <!--<div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
@@ -77,6 +79,6 @@
         <main class="py-4">
             @yield('content')
         </main>
-    </div>
+    </div> --}}
 </body>
 </html>
